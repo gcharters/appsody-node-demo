@@ -39,7 +39,7 @@ appsody build
 tag the image and push to registry 
 
 
-docker tag appsody-node-demo  <account>/appsody-node-demo:latest
+docker tag appsody-node-demo  %account%/appsody-node-demo:latest
 docker push <account>/appsody-node-demo:latest
 
 generate a deployment descriptor 
@@ -48,13 +48,13 @@ appsody deploy --generate-only
 
 In app-deploy.yaml 
 
-replace the applicationImage value "appsody-node-demo"  with the one above  "<account>/appsody-node-demo"
+replace the applicationImage value "appsody-node-demo"  with the one above  "%account%/appsody-node-demo"
 add an env var section 
   env:
    - name: PORT
      value: 3000
    - name: MDB
-     value: "mongodb://<userid>:<password>@<ip>:27017"
+     value: "mongodb://%userid%:%password%@<ip>:27017"
 
 deploy 
 
