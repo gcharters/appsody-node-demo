@@ -32,3 +32,15 @@ run with appsody run --docker-options "--env-file .env"
 
 docker container stop mongo
 docker container rm mongo to remove the docker
+
+// do remote..
+
+appsody build
+docker tag appsody-node-demo  spoole167/appsody-node-demo:latest
+docker push docker push spoole167/appsody-node-demo:latest
+
+// create secret in kube
+
+// add appsody file
+
+// add ref to envars...
