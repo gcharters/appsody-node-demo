@@ -5,10 +5,23 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 const mongo = require('mongodb').MongoClient
-const url = process.env.MDB;
+
+// set url details from envvar.
+// username and password are optional and signal
+// local dev mode ...
+
+var url = new URL(process.env.MONGO_URI)
+
+var passwd=process.env.MONGO_PASSWORD
+if(passwd!=null) url.password=passwd
+
+var username=process.env.MONGO_USERNAME
+if(username!=null) url.username=username
+
+
 var collection
 
-mongo.connect(url, {
+mongo.connect(url.href, {
     useNewUrlParser: true,
     useUnifiedTopology: true
   }, (err, client) => {
@@ -16,7 +29,7 @@ mongo.connect(url, {
     console.error(err)
     return
   }
-  const db = client.db('kabanero')
+  const db = client.db(process.env.MONGO_DB)
   collection = db.collection('signups')
 
 })
