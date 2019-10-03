@@ -6,6 +6,9 @@ Instructions
 
 Check out the repo.
 
+run npm install to pull in the node modules 
+run npm audit fix  to fix any audit issues 
+
 create an .env file in the root directory -( you can copy or rename env_local to .env ) that has a PORT and an MDB entry 
 
 run local_setup.sh in get mongodb running in docker as a daemon container 
@@ -23,5 +26,6 @@ Kill the server
 
 Now appsify the code.. 
 
-
+docker container stop mongo
+docker container rm mongo to remove the docker 
 

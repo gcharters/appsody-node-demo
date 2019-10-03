@@ -1,0 +1,2 @@
+PORT=3000
+MDB=mongodb://localhost:27017
