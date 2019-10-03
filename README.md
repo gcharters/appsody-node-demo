@@ -6,26 +6,29 @@ Instructions
 
 Check out the repo.
 
-run npm install to pull in the node modules 
-run npm audit fix  to fix any audit issues 
+run npm install to pull in the node modules
+run npm audit fix  to fix any audit issues
 
-create an .env file in the root directory -( you can copy or rename env_local to .env ) that has a PORT and an MDB entry 
+create an .env file in the root directory -( you can copy or rename env_local to .env ) that has a PORT and an MDB entry
 
-run local_setup.sh in get mongodb running in docker as a daemon container 
+run local_setup.sh in get mongodb running in docker as a daemon container
 
-start server locally 
+start server locally
 
-npm start 
+npm start
 
 goto [http://localhost:3000]()
 
 Try to register.
 Registering with the same email twice should cause an error
 
-Kill the server 
+Kill the server
 
-Now appsify the code.. 
+Now appsify the code..
+
+appsody init appsodyhub/nodejs-express none
+
+run with appsody run --docker-options "--env-file .env"
 
 docker container stop mongo
-docker container rm mongo to remove the docker 
-
+docker container rm mongo to remove the docker
