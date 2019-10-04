@@ -1,79 +1,80 @@
 # appsody-node-demo
-This demo is a simple node app (based on the aws dynamoddb [example]( https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/nodejs-dynamodb-tutorial.html) )
-but modifed to use mongodb instead.
 
-Instructions
+This demo is a simple node app (based on the aws dynamoddb [example]( https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/nodejs-dynamodb-tutorial.html) modifed to use mongodb instead.
 
-Check out the repo.
+## Instructions
 
-run npm install to pull in the node modules
-run npm audit fix  to fix any audit issues
+Check out this repo
 
-create an .env file in the root directory -( you can copy or rename env_local to .env ) that has a PORT and an MDB entry
+`cd appsody-node-demo`
 
-run local_setup.sh to get mongodb running in docker as a daemon container
+run `npm install` to install the node dependencies
 
-start server locally
+run `npm audit fix`  to fix any audit issues
 
-npm start
+create a `.env` file in the root directory -( you can copy or rename `env_local` to `.env` ) that has the required envvar values for this demo.
+
+run `local_setup.sh` to get mongodb running locally in docker as a daemon container
+
+## Run demo locally
+
+`npm start`
 
 goto [http://localhost:3000]()
 
-Try to register.
-Registering with the same email twice should cause an message
+Try to register a new user.
+Registering with the same email twice should cause a message
 
-Kill the server
+Kill the server with `^C`
 
-Now appsify the code..
+## Now appsify the code
 
-appsody init appsodyhub/nodejs-express none
+In the root of the application run
 
-run with appsody run --docker-options "--env-file .env"
+`appsody init appsodyhub/nodejs-express none`
 
-stop the server 
+And then lauch the server again but this time through appsody.  The code will use the running mongodb docker instance started before.
 
-build a docker image 
+run `appsody run --docker-options "--env-file .env"`
 
-appsody build 
+Go back to  [http://localhost:3000]() Try to register a new user. Registering with the same email used in the original mode above  should cause a message
 
-tag the image and push to registry 
+stop the server with `^C`
 
+We can stop the mongo docker instance now as we no longer need it.
 
-docker tag appsody-node-demo  %account%/appsody-node-demo:latest
-docker push <account>/appsody-node-demo:latest
+`docker container stop mongo`
+`docker container rm mongo to remove the docker`
 
-generate a deployment descriptor 
+## Run the Demo on OpenShift
 
-appsody deploy --generate-only 
+The assumption for this demo is that you have a running mongodb service ready on OpenShift and have credentials and IP address to hand.
 
-In app-deploy.yaml 
+Create a docker image of the application by running
 
-replace the applicationImage value "appsody-node-demo"  with the one above  "%account%/appsody-node-demo"
-add an env var section 
-  env:
-   - name: PORT
-     value: 3000
-   - name: MDB
-     value: "mongodb://%userid%:%password%@<ip>:27017"
+`appsody build`
 
-deploy 
+Now we need to create a descriptor for the application to run on OpenShift.  
 
-appsody deploy 
+`appsody deploy --generate-only`
 
-stop the local stuff..
+This creates a deployment descriptor. To this file we must add environment variables for the application to use when deployed. Since this is a demowe will do this in the simplest way. In reality you would use a pre-created secret on OpenShift and reference that here.
 
+Inline with the last entry in the file add the following with values substituted based on the mongodb setup in OpenShift
 
-docker container stop mongo
-docker container rm mongo to remove the docker
+`env:
+   - name: MONGO_DB
+     value: "<db>"
+   - name: MONGO_USERNAME
+     value: "<user>"
+   - name: MONGO_PASSWORD
+     value: "<pws>"
+   - name: MONGO_URI
+     value: "mongodb://<ip>:27017"`
 
-// do remote..
+When complete we can push the image to docker hub and simultaneously start the deployment to OpenShift
+Replace <account> with your github details
 
-appsody build
-docker tag appsody-node-demo  spoole167/appsody-node-demo:latest
-docker push docker push spoole167/appsody-node-demo:latest
+`appsody deploy -t <account>/appsody-node-demo --push  -n kabanero`
 
-// create secret in kube
-
-// add appsody file
-
-// add ref to envars...
+Visit your OpenShift server to see the demo deployed.  Find the related 'routes' and use the demo as before. 
