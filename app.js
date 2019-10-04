@@ -4,7 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-const mongo = require('mongodb').MongoClient
+
 
 // set url details from envvar.
 // username and password are optional and signal
@@ -18,8 +18,13 @@ if(passwd!=null) url.password=passwd
 var username=process.env.MONGO_USERNAME
 if(username!=null) url.username=username
 
-
 var collection
+
+console.log("==========")
+console.log("MONGO URI ",url)
+console.log("==========")
+
+const mongo = require('mongodb').MongoClient
 
 mongo.connect(url.href, {
     useNewUrlParser: true,
@@ -43,7 +48,6 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -87,11 +91,6 @@ app.get('/', function(req, res) {
 
     });
 
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
 
 // error handler
 app.use(function(err, req, res, next) {
