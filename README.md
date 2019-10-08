@@ -39,6 +39,24 @@ run `appsody run --docker-options "--env-file .env"`
 
 Go back to  [http://localhost:3000]() Try to register a new user. Registering with the same email used in the original mode above  should cause a message
 
+In index.js
+
+Add
+
+```
+      <div id="signupDuplicate" class="alert alert-success" style="display:none">
+        <p id="signupDuplicateText">Fear not, you're already on the list! You'll be among the first to know when we launch.</p>
+      </div>
+```
+
+and
+
+```
+                  case 409:
+                    $("#signupDuplicate").show();
+                    break;
+```
+
 stop the server with `^C`
 
 We can stop the mongo docker instance now as we no longer need it.
