@@ -62,15 +62,18 @@ This creates a deployment descriptor. To this file we must add environment varia
 
 Inline with the last entry in the file add the following with values substituted based on the mongodb setup in OpenShift
 
-`env:
-   - name: MONGO_DB
-     value: "<db>"
-   - name: MONGO_USERNAME
-     value: "<user>"
-   - name: MONGO_PASSWORD
-     value: "<pws>"
-   - name: MONGO_URI
-     value: "mongodb://<ip>:27017"`
+```
+  serviceAccountName: appsody-node-demo-sa
+  env:
+    - name: MONGO_DB
+      value: "sampledb"
+    - name: MONGO_USERNAME
+      value: "admin"
+    - name: MONGO_PASSWORD
+      value: "kabanero"
+    - name: MONGO_URI
+      value: "mongodb://mongodb.kabanero.svc.cluster.local:27017"
+```
 
 When complete we can push the image to docker hub and simultaneously start the deployment to OpenShift
 Replace <account> with your github details
