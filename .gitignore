@@ -1,3 +1,7 @@
+# Appsody generated stuff
+.appsody-config.yaml
+app-deploy.yaml
+
 # Logs
 logs
 *.log
