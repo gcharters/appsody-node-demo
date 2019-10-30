@@ -39,6 +39,24 @@ run `appsody run --docker-options "--env-file .env"`
 
 Go back to  [http://localhost:3000]() Try to register a new user. Registering with the same email used in the original mode above  should cause a message
 
+In index.js
+
+Add
+
+```
+      <div id="signupDuplicate" class="alert alert-success" style="display:none">
+        <p id="signupDuplicateText">Fear not, you're already on the list! You'll be among the first to know when we launch.</p>
+      </div>
+```
+
+and
+
+```
+                  case 409:
+                    $("#signupDuplicate").show();
+                    break;
+```
+
 stop the server with `^C`
 
 We can stop the mongo docker instance now as we no longer need it.
@@ -62,15 +80,18 @@ This creates a deployment descriptor. To this file we must add environment varia
 
 Inline with the last entry in the file add the following with values substituted based on the mongodb setup in OpenShift
 
-`env:
-   - name: MONGO_DB
-     value: "<db>"
-   - name: MONGO_USERNAME
-     value: "<user>"
-   - name: MONGO_PASSWORD
-     value: "<pws>"
-   - name: MONGO_URI
-     value: "mongodb://<ip>:27017"`
+```
+  serviceAccountName: appsody-node-demo-sa
+  env:
+    - name: MONGO_DB
+      value: "sampledb"
+    - name: MONGO_USERNAME
+      value: "admin"
+    - name: MONGO_PASSWORD
+      value: "kabanero"
+    - name: MONGO_URI
+      value: "mongodb://mongodb.kabanero.svc.cluster.local:27017"
+```
 
 When complete we can push the image to docker hub and simultaneously start the deployment to OpenShift
 Replace <account> with your github details
