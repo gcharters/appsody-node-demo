@@ -9,7 +9,7 @@ var logger = require('morgan');
 // set url details from envvar.
 // username and password are optional and signal
 // local dev mode ...
-
+/*
 var url = new URL(process.env.MONGO_URI)
 
 var passwd=process.env.MONGO_PASSWORD
@@ -38,8 +38,7 @@ mongo.connect(url.href, {
   collection = db.collection('signups')
 
 })
-
-
+*/
 
 
 var app = express();
@@ -53,6 +52,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+var registrants = {};
 
 app.get('/', function(req, res) {
     res.render('index', {
@@ -64,15 +64,24 @@ app.get('/', function(req, res) {
 
 
 
+
     app.post('/signup', function(req, res) {
 
-        var item = {
+        var reg = {
             '_id' :  req.body.email,
             'name': req.body.name,
             'preview':  req.body.previewAccess,
             'theme': req.body.theme
         };
 
+        if (registrants[reg._id] == null) {
+          registrants[reg._id] = reg;
+          res.status(201).end();          
+        } else {
+          res.status(409).end();
+        }
+
+/*
         collection.insertOne(item, (err, result) => {
             if(err) {
               if (err.code==11000) {
@@ -87,7 +96,7 @@ app.get('/', function(req, res) {
                 })
 
             }
-        });
+        });*/
 
     });
 
