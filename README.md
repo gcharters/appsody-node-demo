@@ -25,13 +25,14 @@ Kill the server with `^C`
 
 ## Now appsify the code
 
-In the root of the application run
+1. Add the Node.js Express 0.3.0 repository to your appsody CLI
+   * `appsody repo add appsodyhub030 https://github.com/appsody/stacks/releases/download/nodejs-express-v0.3.0/incubator-index.yaml`
 
-`appsody init appsodyhub/nodejs-express none`
+1. In the root of the application run
+   * `appsody init appsodyhub030/nodejs-express none`
 
-And then lauch the server again but this time through appsody.  The code will use the running mongodb docker instance started before.
-
-run `appsody run `
+1. And then lauch the server again but this time through appsody.  The code will use the running mongodb docker instance started before.
+   * `appsody run`
 
 Go back to  [http://localhost:3000]() Try to register a new user. Registering with the same email used in the original mode above should cause a message
 
